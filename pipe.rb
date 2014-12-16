@@ -4,9 +4,17 @@ require 'English'
 # read contents from STDIN to STDOUT
 # but: duplicate lines
 
-while $stdin.gets do
-  puts $LAST_READ_LINE
-  puts $LAST_READ_LINE
+class IO
+  def pipe
+    while gets do
+      yield $LAST_READ_LINE
+    end
+  end
+end
+
+$stdin.pipe do |line|
+  puts line
+  puts line
 end
 
 puts 'ok'
